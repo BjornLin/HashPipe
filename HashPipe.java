@@ -46,7 +46,7 @@ public class HashPipe {
                 startPipe.right = pipeToAdd; // reference FROM the ROOT pipe to the new pipe
                 pipeToAdd.left = startPipe; // reference FROM the NEW PIPE to the root pipe.
                 pipeToAdd.right = null; // // reference FROM the NEW PIPE to null.
-                System.out.println("Height of the pipeToAdd is: " + pipeToAdd.height);
+                //System.out.println("Height of the pipeToAdd is: " + pipeToAdd.height);
                 updateReferences(pipeToAdd);
                 //pipeToAdd.thePipe[0].lPointer = pipeToAdd.left; // TODO: pointer to the left should be added..
             }
@@ -141,16 +141,19 @@ public class HashPipe {
     private Pipe floorPipe(String key) // returns the pipe of the floor of the given key.
     {
         char keyAsChar = key.charAt(0);
-        Pipe nextPipe;
-        Pipe startPipe = rootPipe;
+        //Pipe nextPipe = new Pipe();
+
         for (int i = rootPipe.height - 1; i >= 0; i--)
         {
-            nextPipe = startPipe.thePipe[i];
+            Pipe startPipe = rootPipe;
+            Pipe nextPipe = startPipe.thePipe[i];
             if (size == 0){ return rootPipe;} // we haven't added any pipes yet...
             // If the reference FOUND refers to a pipe w. a HIGHER key (ie. not height) than pipeToInsert:
 
 //            System.out.println("keyAsChar: " + keyAsChar);
 //            System.out.println("nextPipe.str: " + nextPipe.str);
+            else if (nextPipe == null){return startPipe;}
+            else if (startPipe.right == null){return startPipe;}
             else if (nextPipe.str.charAt(0) > keyAsChar){
                 if (nextPipe.left.str.charAt(0) < keyAsChar){return nextPipe.left;}//if FOUND.left key is SMALLER than pipeToInsert
             }
