@@ -26,6 +26,5 @@ public class Test01 {
                 System.out.println(in[g]);
             }
         }
-
     }
 }

@@ -1,5 +1,3 @@
-//import edu.princeton.cs.algs4.*;
-
 public class HashPipe {
 
     int size = 0;
@@ -9,12 +7,10 @@ public class HashPipe {
         rootPipe = new Pipe(32, null, null, null, null);
     }
 
-
-    //Returns the KEY of the pipe that is referenced (pointed) to at the height given by 'height',
-    //(counting from below and starting with 0) or null
-
+    //Returns the KEY of the pipe that is referenced (pointed) to at the height given by 'height', (counting from below and starting with 0) or null
     public String control(String str, int height) {
         Pipe pipe = floorPipe(str);
+        //TODO: NEED TO ADD A FORLOOP TO GO THROUGH ALL LEVELS! BECAUSE RIGHT NOW I'M NOT PRINTING ALL
         if (pipe.thePipe[height] == null || pipe == null || pipe.height < height) {
             return null;
         }
@@ -182,8 +178,7 @@ public class HashPipe {
         return null;
     }
 
-    public class Pipe
-    {
+    public class Pipe{
         Pipe[] thePipe;
         int height;
         Integer value;
@@ -194,21 +189,14 @@ public class HashPipe {
         Pipe lPointer; //the pointer at eachlevel to the LEFT
         Pipe rPointer; //the pointer at eachlevel to the RIGHT
 
-        Pipe(int height, String str, Integer value, Pipe left, Pipe right)
-        {
+        Pipe(int height, String str, Integer value, Pipe left, Pipe right){
             this.height = height;
             this.str = str;
             this.value = value;
             this.left = left;
             this.right = right;
-           // keyAsChar = str.charAt(0);
-
             thePipe = new Pipe[height];
-            // rootPipe = new Pipe(32, null, null);
         }
     }
-
 }
-// ny test
-// ny test
-// ny test
+//dfgdg
