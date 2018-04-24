@@ -118,11 +118,9 @@ public class HashPipe {
         Pipe startPipe = rootPipe;
         for (int i = rootPipe.height - 1; i >= 0; i--)
         {
-
             Pipe nextPipe = startPipe.thePipe[i];
             if (size == 0){ return rootPipe;} // we haven't added any pipes yet...
-
-            else if (nextPipe == null){return startPipe;}
+            else if (nextPipe == null){return startPipe;} // if there's no pipe to the right, we just return the pipe we're at now.
             else if (startPipe.right == null){return startPipe;}
             // If the reference FOUND refers to a pipe w. a HIGHER key (ie. not height) than pipeToInsert:
             else if (nextPipe.str.charAt(0) > keyAsChar){
