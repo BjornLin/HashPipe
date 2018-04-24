@@ -31,17 +31,22 @@ public class HashPipe {
             rootPipe.right = pipeToAdd; // reference from the from to the new pipe
             pipeToAdd.left = rootPipe; // reference from new pipe to the root
             updateReferences(pipeToAdd); // TODO: Figure out a way to update POINTERS....!!
+            size++;
+
         }
 
         for (int i = startPipe.height - 1; i >= 0; i--){
+            //System.out.println("size : " + size);
             nextPipe = startPipe.thePipe[i];
-
+            //System.out.println("i = " + i);
             if (nextPipe == null && i == 0){ // if we're at level '0' and there's no pipe to the right...
                 // add pipeToAdd here... (after the 'startPipe')
                 startPipe.right = pipeToAdd; // reference FROM the ROOT pipe to the new pipe
                 pipeToAdd.left = startPipe; // reference FROM the NEW PIPE to the root pipe.
                 pipeToAdd.right = null; // // reference FROM the NEW PIPE to null.
                 updateReferences(pipeToAdd);
+                size++;
+                return; // if we added a pipe, no need to continue down the levels of the pipe
             }
             if (nextPipe == null){continue;} // if level contains NO references.. move down a level and look again..
 
@@ -54,7 +59,8 @@ public class HashPipe {
                     pipeToAdd.left = nextPipe.left; // reference FROM the new Pipe to the left neighbour (ie. floor)
                     nextPipe.left = pipeToAdd; // reference FROM the right neighbour to the new Pipe.
                     updateReferences(pipeToAdd);// TODO: update references....!
-                    // TODO: update pointers
+                    size++;
+                    return; // if we added a pipe, no need to continue down the levels of the pipe
                 }
             }
             // else, if the reference FOUND refers to a pipe w. a SMALLER value (ie. not height), than pipeToAdd;
@@ -66,7 +72,8 @@ public class HashPipe {
                     nextPipe.right.left = pipeToAdd; // reference FROM the right neighbour to the new pipe.
                     nextPipe.right = pipeToAdd; // reference from the left neighbour to the new pipe.
                     updateReferences(pipeToAdd);//
-                    // TODO: update pointers......!
+                    size++;
+                    return; // if we added a pipe, no need to continue down the levels of the pipe
                 }
                 //else 'Move' to the FOUND pipe, and start over from line, this time going down FOUND, not the rootPipe.
                 else if (nextPipe.right.str.charAt(0) < keyAsChar){
@@ -76,7 +83,7 @@ public class HashPipe {
             // the reference FOUND refers to a pipe w. the SAME key.. Update the value only..
             else if (nextPipe.str.charAt(0) == keyAsChar){nextPipe.value = pipeToAdd.value;}
         }
-        size++;
+        //size++;
     }
 
     public void updateReferences(Pipe pipeToAdd) {
@@ -93,9 +100,15 @@ public class HashPipe {
                         }
                         leftPipe = leftPipe.left;               // find the pipe to the left of the new at least as high as the new pipe
                     }
-                    // else we hit the root pipe w7o finding another pipe high enough, so we add a pointer to the new pipe at height 'i'
+                    // else we hit the root pipe w/o finding another pipe high enough, so we add a pointer to the new pipe at height 'i'
                     if (leftPipe.left == null){leftPipe.thePipe[i].rPointer = pipeToAdd;}
             }
+//            else if (pipeToAdd.height < pipeToAdd.left.height) { // if pipeToAdd is LOWER than its floor
+//                for(int j = pipeToAdd.height - 1; j >= 0; j--){ // go through every level and...
+//                    pipeToAdd.thePipe[j].lPointer = pipeToAdd.left; //add a pointer to the floor pipe..
+//                    pipeToAdd.left.thePipe[j].rPointer = pipeToAdd; // add a pointer in the floor pipe to pipeToAdd
+//                }
+//            }
         }
     }
 
@@ -111,15 +124,16 @@ public class HashPipe {
     }
 
 
-    private Pipe floorPipe(String key) // returns the pipe of the floor of the given key.
-    {
+    private Pipe floorPipe(String key){ // returns the pipe of the floor of the given key.
         char keyAsChar = key.charAt(0);
         //Pipe nextPipe = new Pipe();
         Pipe startPipe = rootPipe;
         for (int i = rootPipe.height - 1; i >= 0; i--)
         {
+            //System.out.println("i = " + i);
             Pipe nextPipe = startPipe.thePipe[i];
             if (size == 0){ return rootPipe;} // we haven't added any pipes yet...
+            //else if (nextPipe.thePipe[i].rPointer == null){continue;} // if the lPointer at the current level is null, move down a level and search again
             else if (nextPipe == null){return startPipe;} // if there's no pipe to the right, we just return the pipe we're at now.
             else if (startPipe.right == null){return startPipe;}
             // If the reference FOUND refers to a pipe w. a HIGHER key (ie. not height) than pipeToInsert:
