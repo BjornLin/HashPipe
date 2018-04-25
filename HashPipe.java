@@ -19,8 +19,7 @@ public class HashPipe {
 
     public int size(){return size;} // return the number of elements
 
-    public void put(String str, Integer val) // put key-value pair into the table
-    {
+    public void put(String str, Integer val) {// put key-value pair into the table
         //int height = Integer.numberOfTrailingZeros(str.hashCode() + 1);
         Pipe pipeToAdd = new Pipe(Integer.numberOfTrailingZeros(str.hashCode() + 1), str, val);
         Pipe currentPipe = rootPipe;
@@ -29,7 +28,7 @@ public class HashPipe {
         for (int i = currentLevel; i <= 0; i--){
 
             // if the pointer at this level of currentPipe points to null, OR the pointer points to a pipe w. a HIGHER KEY.
-            if (currentPipe.thePipe[i].rPointer == null || (pipeToAdd.str.compareTo(currentPipe.thePipe[i].rPointer.str) < 0)){ *****************
+            if (currentPipe.thePipe[i].rPointer == null || (pipeToAdd.str.compareTo(currentPipe.thePipe[i].rPointer.str) < 0)){ //*****************
 
                 continue; // move down the pipe and try again..
             }
@@ -55,34 +54,42 @@ public class HashPipe {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     // returns the value associated with key, uses the floorPipe() method..
     public Integer get(String key) {
         Pipe pipe =  floorPipe(key);
         return null;
     }
 
-    public String floor(String key) // returns largest key less than or equal to key
-    {
+    public String floor(String key){ // returns largest key less than or equal to key
         return floorPipe(key).str;
     }
 
 
     private Pipe floorPipe(String key){ // returns the pipe of the floor of the given key.
+        //int height = Integer.numberOfTrailingZeros(str.hashCode() + 1);
+        //Pipe auxPipe = new Pipe(Integer.numberOfTrailingZeros(str.hashCode() + 1), str, val);
 
+        Pipe currentPipe = rootPipe;
+        int currentLevel = currentPipe.height -1;
 
+        for (int i = currentLevel; i <= 0; i--){
+
+            // if the pointer at this level of currentPipe points to null, OR the pointer points to a pipe w. a HIGHER KEY.
+            if (currentPipe.thePipe[i].rPointer == null || (key.compareTo(currentPipe.thePipe[i].rPointer.str) < 0)){ //*****************
+                continue; // move down the pipe and try again..
+            }
+
+            // if the pointer at this level of currentPipe points to a pipe w a LOWER KEY.
+            if (key.compareTo(currentPipe.thePipe[i].rPointer.str) > 0){ //****************************
+                currentPipe = currentPipe.thePipe[i].rPointer; // move to the found pipe....
+                continue;
+            }
+
+            // if the pointer at this level of currentPipe points to a pipe w an IDENTICAL KEY
+            if (key.compareTo(currentPipe.thePipe[i].rPointer.str) == 0){
+                // update/overwrite the old value with the new...
+                return currentPipe;
+            }
         }
         return null;
     }
