@@ -32,6 +32,7 @@ public class HashPipe {
             pipeToAdd.left = rootPipe; // reference from new pipe to the root
             updateReferences(pipeToAdd); // TODO: Figure out a way to update POINTERS....!!
             size++;
+            return;
 
         }
 
@@ -171,8 +172,8 @@ public class HashPipe {
         //char keyAsChar;
         Pipe left; //keeps track of each pipe's immediate neighbour to the left.
         Pipe right; //keeps track of each pipe's immediate neighbour to the left.
-        Pipe lPointer; //the pointer at eachlevel to the LEFT
-        Pipe rPointer; //the pointer at eachlevel to the RIGHT
+        Pipe lPointer; //the pointer at each level to the LEFT
+        Pipe rPointer; //the pointer at each level to the RIGHT
 
         Pipe(int height, String str, Integer value, Pipe left, Pipe right){
             this.height = height;
