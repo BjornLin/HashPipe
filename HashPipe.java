@@ -32,10 +32,11 @@ public class HashPipe {
     public void put(String str, Integer val) {// put key-value pair into the table
 
         //int height = Integer.numberOfTrailingZeros(str.hashCode() + 1);
-        System.out.println("Height of Pipe: " + str + " =    " + Integer.numberOfTrailingZeros(str.hashCode() + 1));
         // height of pipe "B" is = 0 !!!!????
-
-        Pipe pipeToAdd = new Pipe(Integer.numberOfTrailingZeros(str.hashCode() + 1), str, val);
+        int height = Integer.numberOfTrailingZeros(str.hashCode()) + 1;
+        //System.out.println("Height of Pipe: " + str + " =    " + Integer.numberOfTrailingZeros(str.hashCode() ) + 1);
+        //System.out.println("Height of Pipe: " + str + " =    " + height);
+        Pipe pipeToAdd = new Pipe(height, str, val);
         Pipe currentPipe = rootPipe;
         int currentLevel = currentPipe.height -1;
 
