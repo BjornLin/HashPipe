@@ -2,6 +2,7 @@ public class HashPipe {
 
     int size = 0;
     Pipe rootPipe;
+    int maxPipeHeight = 0;
 
     public HashPipe(){ // create an empty symbol table
         rootPipe = new Pipe(32, null, null);
@@ -43,10 +44,11 @@ public class HashPipe {
                 rootPipe.thePipe[j] = pipeToAdd; // ...add a pointer to the new pipe
             }
             size++;
+            //if (maxPipeHeight < pipeToAdd.height){maxPipeHeight = pipeToAdd.height;}
             return;
         }
 
-        for (int i = currentLevel; i <= 0; i--){
+        for (int i = currentLevel; i >= 0; i--){
 
             // if the pointer found points to 'null' AND were at level '0' - ie. we're at the rightmost pipe at level 0
             if(i == 0 && currentPipe.thePipe[i] == null){currentPipe.thePipe[i] = pipeToAdd;} // 'add' the pipe here, by adding a reference ...
