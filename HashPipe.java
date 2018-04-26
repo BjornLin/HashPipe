@@ -49,6 +49,7 @@ public class HashPipe {
 
             // if the pointer found points to 'null' AND were at level '0' - ie. we're at the rightmost pipe at level 0
             if(i == 0 && currentPipe.thePipe[i] == null){currentPipe.thePipe[i] = pipeToAdd;} // 'add' the pipe here, by adding a reference ...
+
             // if the pointer at this level of currentPipe points to null, OR the pointer points to a pipe w. a HIGHER KEY.
             if (currentPipe.thePipe[i] == null || (pipeToAdd.str.compareTo(currentPipe.thePipe[i].str) < 0)){ //*****************
 
@@ -58,7 +59,7 @@ public class HashPipe {
             // if the pointer at this level of currentPipe points to a pipe w a LOWER KEY.
             if (pipeToAdd.str.compareTo(currentPipe.thePipe[i].str) > 0){ //****************************
 
-                // IT SHOULD ONLY MOVE THE PIPE ************************** move insert!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                // In case pipeToAdd is AT LEAST as high as currentLevel:
                 if (pipeToAdd.height >= i) {// update the reference at this level () ONLY if pipeToAdd is high enough
                     pipeToAdd.thePipe[i] = currentPipe.thePipe[i];// put pointer from the found pipe & put it in currentPipe
                     currentPipe.thePipe[i] = pipeToAdd; // make the pointer in the found pipe point to pipeToInsert. And...
@@ -78,15 +79,13 @@ public class HashPipe {
         }
     }
 
-    // returns the value associated with key, uses the floorPipe() method..
+    // returns the value associated with the key, uses the floorPipe() method..
     public Integer get(String key) {
         Pipe pipe =  floorPipe(key);
-        return null;
+        return pipe.value;
     }
 
-    public String floor(String key){ // returns largest key less than or equal to key
-        return floorPipe(key).str;
-    }
+    public String floor(String key){ return floorPipe(key).str; } // returns largest key less than or equal to key
 
 
     private Pipe floorPipe(String key){ // returns the pipe of the floor of the given key.
