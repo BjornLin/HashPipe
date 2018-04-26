@@ -30,21 +30,18 @@ public class HashPipe {
     public int size(){return size;} // return the number of elements
 
     public void put(String str, Integer val) {// put key-value pair into the table
-
-        //int height = Integer.numberOfTrailingZeros(str.hashCode() + 1);
-        // height of pipe "B" is = 0 !!!!????
         int height = Integer.numberOfTrailingZeros(str.hashCode()) + 1;
-        //System.out.println("Height of Pipe: " + str + " =    " + Integer.numberOfTrailingZeros(str.hashCode() ) + 1);
-        //System.out.println("Height of Pipe: " + str + " =    " + height);
         Pipe pipeToAdd = new Pipe(height, str, val);
         Pipe currentPipe = rootPipe;
         int currentLevel = currentPipe.height -1;
 
-//        if (size == 0){
-//            for (int j = pipeToAdd.height - 1; j <= 0; j--){ // for each level of the rootpipe from the height of the new pipe...
-//                rootPipe.thePipe[j].rPointer = pipeToAdd; // ...add a pointer to the new pipe
-//            }
-//        }
+        //****************************************************** is this necessary?
+        if (size == 0){ // if its the first pipe we add
+            //  we add a pointer to the new pipe for each level of the rootpipe (from the height of the new pipe (-1) down to '0'...
+            for (int j = pipeToAdd.height - 1; j >= 0; j--){
+                rootPipe.thePipe[j] = pipeToAdd; // ...add a pointer to the new pipe
+            }
+        }
 
         for (int i = currentLevel; i <= 0; i--){
 
@@ -64,8 +61,6 @@ public class HashPipe {
                 if (pipeToAdd.height >= i) {// update the reference at this level () ONLY if pipeToAdd is high enough
                     pipeToAdd.thePipe[i] = currentPipe.thePipe[i];// put pointer from the found pipe & put it in currentPipe
                     currentPipe.thePipe[i] = pipeToAdd; // make the pointer in the found pipe point to pipeToInsert. And...
-                    size++;
-                    //System.out.println("Just added " + pipeToAdd.str + "to the HashPipe");
                 }
                 currentPipe = currentPipe.thePipe[i]; // THEN move to the found pipe....
 
@@ -78,6 +73,7 @@ public class HashPipe {
                 currentPipe.thePipe[i].value = pipeToAdd.value;
             }
         }
+        size++;
     }
 
     // returns the value associated with the key, uses the floorPipe() method..
