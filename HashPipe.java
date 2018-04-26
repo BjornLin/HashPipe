@@ -41,6 +41,8 @@ public class HashPipe {
             for (int j = pipeToAdd.height - 1; j >= 0; j--){
                 rootPipe.thePipe[j] = pipeToAdd; // ...add a pointer to the new pipe
             }
+            size++;
+            return;
         }
 
         for (int i = currentLevel; i <= 0; i--){
@@ -97,9 +99,8 @@ public class HashPipe {
 
         for (int i = currentLevel; i >= 0; i--){
             // if the pointer at this level of currentPipe points to null, OR the pointer points to a pipe w. a HIGHER KEY than the key were looking for...
-            if (currentPipe.thePipe[i] == null || (key.compareTo(currentPipe.thePipe[i].str) < 0)){ //*****************
-            // OK. the line above fails... ostensibly b/c a NullPointer exception is thrown. But isn't that what the check should
-                continue; // move down the pipe and try again..
+            if (currentPipe.thePipe[i] == null || (key.compareTo(currentPipe.thePipe[i].str) < 0)){ //****************
+                continue; // move down the pipe and try again...
             }
 
             // if the pointer at this level of currentPipe points to a pipe w a LOWER KEY.
