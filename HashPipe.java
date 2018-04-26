@@ -9,21 +9,33 @@ public class HashPipe {
 
     //Returns the KEY of the pipe that is referenced (pointed) to at the height given by 'height', (counting from below and starting with 0) or null
     public String control(String str, int height) {
-        Pipe pipe = floorPipe(str);
-        if (str != floorPipe(str).str){return null;} // ie. if the key is NOT in the HashPipe...***************************************************
-        //TODO:
-        if (pipe.thePipe[height] == null || pipe == null || pipe.height < height) {return null;}
-        // returns the key (.str) of the pipe that is referenced ('pointed to') at height 'height'(.thePipe[height]) of 'pipe'
-        return pipe.thePipe[height].rPointer.str;
+        Pipe pipe = floorPipe(str).rPointer;
+        String theString = pipe.thePipe[height].rPointer.str;
+//        //if (str != floorPipe(str).str){return null;} // ie. if the key is NOT in the HashPipe...***************************************************
+//
+//        if (pipe.thePipe[height] == null || pipe == null || pipe.height < height) {return null;}
+//        // returns the key (.str) of the pipe that is referenced ('pointed to') at height 'height'(.thePipe[height]) of 'pipe'
+        //return pipe.thePipe[height].rPointer.str;
+
+        if(theString != str){return null;}    // IE. if the key IS NOT IN THE HASHPIPE
+        if (pipe.thePipe[height] == null || pipe == null || pipe.height < height){return null;}
+        return pipe.thePipe[0].rPointer.thePipe[height].str;
     }
 
     public int size(){return size;} // return the number of elements
 
     public void put(String str, Integer val) {// put key-value pair into the table
+
         //int height = Integer.numberOfTrailingZeros(str.hashCode() + 1);
         Pipe pipeToAdd = new Pipe(Integer.numberOfTrailingZeros(str.hashCode() + 1), str, val);
         Pipe currentPipe = rootPipe;
         int currentLevel = currentPipe.height -1;
+
+//        if (size == 0){
+//            for (int j = pipeToAdd.height - 1; j <= 0; j--){ // for each level of the rootpipe from the height of the new pipe...
+//                rootPipe.thePipe[j].rPointer = pipeToAdd; // ...add a pointer to the new pipe
+//            }
+//        }
 
         for (int i = currentLevel; i <= 0; i--){
 
@@ -40,9 +52,11 @@ public class HashPipe {
                 if (pipeToAdd.height >= i) {// update the reference at this level () ONLY if pipeToAdd is high enough
                     pipeToAdd.thePipe[i].rPointer = currentPipe.thePipe[i].rPointer;// put pointer from the found pipe & put it in currentPipe
                     currentPipe.thePipe[i].rPointer = pipeToAdd; // make the pointer in the found pipe point to pipeToInsert. And...
+                    size++;
+                    System.out.println("Just added " + pipeToAdd.str + "to the HashPipe");
                 }
                 currentPipe = currentPipe.thePipe[i].rPointer; // THEN move to the found pipe....
-                size++;
+
                 continue;
             }
 
@@ -72,10 +86,10 @@ public class HashPipe {
         Pipe currentPipe = rootPipe;
         int currentLevel = currentPipe.height -1;
 
-        for (int i = currentLevel; i <= 0; i--){
-
-            // if the pointer at this level of currentPipe points to null, OR the pointer points to a pipe w. a HIGHER KEY.
-            if (currentPipe.thePipe[i].rPointer == null || (key.compareTo(currentPipe.thePipe[i].rPointer.str) < 0)){ //*****************
+        for (int i = currentLevel; i >= 0; i--){
+            // if the pointer at this level of currentPipe points to null, OR the pointer points to a pipe w. a HIGHER KEY than the key were looking for...
+            if (currentPipe.thePipe[i] == null || (key.compareTo(currentPipe.thePipe[i].rPointer.str) < 0)){ //*****************
+            // OK. the line above fails... ostensibly b/c a NullPointer exception is thrown. But isn't that what the check should
                 continue; // move down the pipe and try again..
             }
 

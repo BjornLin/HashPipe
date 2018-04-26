@@ -1,7 +1,7 @@
 // File: Tests.java
 public class Test01 {
     public static void main(String[] args) {
-        // Test 
+        // Test
         int i=0;
         //        String [] in = new String[0];
         String [] in = new String[26];
