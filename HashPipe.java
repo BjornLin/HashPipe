@@ -10,9 +10,8 @@ public class HashPipe {
 
     //Returns the KEY of the pipe that is referenced (pointed) to at the height given by 'height', (counting from below and starting with 0) or null
     public String control(String str, int height) {
-
         Pipe floorPipe = floorPipe(str);
-        if (floorPipe != null && floorPipe.thePipe[height] != null)
+        if (height < floorPipe.height && floorPipe.thePipe[height] != null)
           return floorPipe.thePipe[height].str;
         return null;
         //Pipe pipe = floorPipe(str);
@@ -87,14 +86,17 @@ public class HashPipe {
 
     public void put(String key, Integer val) {
       Pipe floorPipe = floorPipe(key);
-      if (floorPipe.str.compareTo(key) == 0) {
-        floorPipe.value = val;
-        return;
+      if (floorPipe != null &&
+          floorPipe.str != null &&
+          floorPipe.str.compareTo(key) == 0) {
+            floorPipe.value = val;
+            return;
       }
       int height = Integer.numberOfTrailingZeros(key.hashCode()) + 1;
       Pipe pipeToAdd = new Pipe(height, key, val);
       pipeToAdd.previousPipe = floorPipe;
-      if (floorPipe.thePipe[0] != null) floorPipe.thePipe[0].previousPipe = pipeToAdd;
+      if (floorPipe.thePipe[0] != null)
+        floorPipe.thePipe[0].previousPipe = pipeToAdd;
       references(pipeToAdd);
       size++;
     }
@@ -117,7 +119,7 @@ public class HashPipe {
     public String floor(String key){ return floorPipe(key).str; } // returns largest key less than or equal to key
 
 
-    private Pipe floorPipe(String key){ // returns the pipe of the floor of the given key.
+    private Pipe floorPipe2(String key){ // returns the pipe of the floor of the given key.
         //int height = Integer.numberOfTrailingZeros(str.hashCode() + 1);
         //Pipe auxPipe = new Pipe(Integer.numberOfTrailingZeros(str.hashCode() + 1), str, val);
 
@@ -146,6 +148,17 @@ public class HashPipe {
             }
         }
         return null;
+    }
+
+    private Pipe floorPipe(String key) {
+      Pipe floorPipe = rootPipe;
+      for (int i = rootPipe.height-1; i >= 0; i--) {
+        if (floorPipe.thePipe[i] == null) continue;
+        while(floorPipe.thePipe[i] != null &&
+              floorPipe.thePipe[i].str.compareTo(key) <= 0)
+                floorPipe  = floorPipe.thePipe[i];
+      }
+      return floorPipe;
     }
 
     public class Pipe{
