@@ -52,10 +52,6 @@ public class HashPipe {
         }
 
         for (int i = currentLevel; i >= 0; i--){
-            // if pipeToAdd is AT LEAST AS HIGH as the our current height, and the current pipe we're searching down through points to null at this level
-            // update the references at this level..
-            if(pipeToAdd.height >= currentLevel && currentPipe.thePipe[i] == null){pipeToAdd.thePipe[i] = null;}
-
             // if the pointer found points to 'null' AND were at level '0' - ie. we're at the rightmost pipe at level 0
             if(i == 0 && currentPipe.thePipe[i] == null){currentPipe.thePipe[i] = pipeToAdd;} // 'add' the pipe here, by adding a reference ...
 
