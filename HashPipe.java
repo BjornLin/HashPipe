@@ -11,11 +11,15 @@ public class HashPipe {
     //Returns the KEY of the pipe that is referenced (pointed) to at the height given by 'height', (counting from below and starting with 0) or null
     public String control(String str, int height) {
 
-        Pipe pipe = floorPipe(str);
-        String stringToReturn = null;
-        if(pipe.thePipe[height] == null){return stringToReturn;} // if the pointer is null, return a null String object*******************
+        Pipe floorPipe = floorPipe(str);
+        if (floorPipe != null && floorPipe.thePipe[height] != null)
+          return floorPipe.thePipe[height].str;
+        return null;
+        //Pipe pipe = floorPipe(str);
+        //String stringToReturn = null;
+        //if(pipe.thePipe[height] == null){return stringToReturn;} // if the pointer is null, return a null String object*******************
 
-        stringToReturn = pipe.thePipe[height].str;
+        //stringToReturn = pipe.thePipe[height].str;
         // else {stringToReturn = pipe.thePipe[height].str;} //**********************************Use this instead?
 //********// above line fails: **************************************************
 //        //if (str != floorPipe(str).str){return null;} // ie. if the key is NOT in the HashPipe...***************************************************
@@ -24,9 +28,9 @@ public class HashPipe {
 //        // returns the key (.str) of the pipe that is referenced ('pointed to') at height 'height'(.thePipe[height]) of 'pipe'
         //return pipe.thePipe[height].rPointer.str;
 
-        if(stringToReturn != str){return null;}    // IE. if the key IS NOT IN THE HASHPIPE
-        if (pipe.thePipe[height] == null || pipe == null || pipe.height < height){return null;}
-        return pipe.thePipe[height].str; // return the key of the pipe pointed to at this level
+        //if(stringToReturn != str){return null;}    // IE. if the key IS NOT IN THE HASHPIPE
+        //if (pipe.thePipe[height] == null || pipe == null || pipe.height < height){return null;}
+        //return pipe.thePipe[height].str; // return the key of the pipe pointed to at this level
     }
 
     public int size(){return size;} // return the number of elements
