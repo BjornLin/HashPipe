@@ -35,7 +35,7 @@ public class HashPipe {
 
     public int size(){return size;} // return the number of elements
 
-    public void put(String str, Integer val) {// put key-value pair into the table
+    public void put2(String str, Integer val) {// put key-value pair into the table
         int height = Integer.numberOfTrailingZeros(str.hashCode()) + 1;
         Pipe pipeToAdd = new Pipe(height, str, val);
         Pipe currentPipe = rootPipe;
@@ -83,6 +83,20 @@ public class HashPipe {
             }
         }
         size++;
+    }
+
+    public void put(String key, Integer val) {
+      Pipe floorPipe = floorPipe(key);
+      if (floorPipe.str.compareTo(key) == 0) {
+        floorPipe.value = val;
+        return;
+      }
+      int height = Integer.numberOfTrailingZeros(str.hashCode()) + 1;
+      Pipe pipeToAdd = new Pipe(height, str, val);
+      pipeToAdd.previousPipe = floorPipe;
+      if (floorPipe.thePipe[0] != null) floorPipe.thePipe[0].previousPipe = pipeToAdd;
+      references(pipeToAdd);
+      size++;
     }
 
     public void references(Pipe pipeToAdd) {
