@@ -12,9 +12,10 @@ public class HashPipe {
 
         Pipe pipe = floorPipe(str);
         String stringToReturn = null;
-        if(pipe.thePipe[height] == null){return stringToReturn;} // if the pointer is null, return a null String object
+        if(pipe.thePipe[height] == null){return stringToReturn;} // if the pointer is null, return a null String object*******************
 
         stringToReturn = pipe.thePipe[height].str;
+        // else {stringToReturn = pipe.thePipe[height].str;} //**********************************Use this instead?
 //********// above line fails: **************************************************
 //        //if (str != floorPipe(str).str){return null;} // ie. if the key is NOT in the HashPipe...***************************************************
 //
