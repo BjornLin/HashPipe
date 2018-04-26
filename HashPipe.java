@@ -85,6 +85,15 @@ public class HashPipe {
         size++;
     }
 
+    public void references(Pipe pipeToAdd) {
+      Pipe leftPipe = pipe.previousPipe;
+      for (int i = 0; i < pipeToAdd.height; i++) {
+        while (leftPipe.height <= i) leftPipe = leftPipe.previousPipe;
+        pipeToAdd.thePipe[i] = leftPipe.thePipe[i];
+        leftPipe.thePipe[i] = pipeToAdd;
+      }
+    }
+
     // returns the value associated with the key, uses the floorPipe() method..
     public Integer get(String key) {
         Pipe pipe =  floorPipe(key);
@@ -130,6 +139,7 @@ public class HashPipe {
         int height;
         Integer value;
         String str;
+        Pipe previousPipe;
 
         Pipe(int height, String str, Integer value){
             this.height = height;
