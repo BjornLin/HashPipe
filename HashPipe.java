@@ -91,8 +91,8 @@ public class HashPipe {
         floorPipe.value = val;
         return;
       }
-      int height = Integer.numberOfTrailingZeros(str.hashCode()) + 1;
-      Pipe pipeToAdd = new Pipe(height, str, val);
+      int height = Integer.numberOfTrailingZeros(key.hashCode()) + 1;
+      Pipe pipeToAdd = new Pipe(height, key, val);
       pipeToAdd.previousPipe = floorPipe;
       if (floorPipe.thePipe[0] != null) floorPipe.thePipe[0].previousPipe = pipeToAdd;
       references(pipeToAdd);
@@ -100,7 +100,7 @@ public class HashPipe {
     }
 
     public void references(Pipe pipeToAdd) {
-      Pipe leftPipe = pipe.previousPipe;
+      Pipe leftPipe = pipeToAdd.previousPipe;
       for (int i = 0; i < pipeToAdd.height; i++) {
         while (leftPipe.height <= i) leftPipe = leftPipe.previousPipe;
         pipeToAdd.thePipe[i] = leftPipe.thePipe[i];
