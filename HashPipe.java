@@ -32,7 +32,7 @@ public class HashPipe {
     public void put(String str, Integer val) {// put key-value pair into the table
 
         //int height = Integer.numberOfTrailingZeros(str.hashCode() + 1);
-        //System.out.println("Height of Pipe: " + str + " =    " + Integer.numberOfTrailingZeros(str.hashCode() + 1));
+        System.out.println("Height of Pipe: " + str + " =    " + Integer.numberOfTrailingZeros(str.hashCode() + 1));
         // height of pipe "B" is = 0 !!!!????
 
         Pipe pipeToAdd = new Pipe(Integer.numberOfTrailingZeros(str.hashCode() + 1), str, val);
@@ -47,6 +47,8 @@ public class HashPipe {
 
         for (int i = currentLevel; i <= 0; i--){
 
+            // if the pointer found points to 'null' AND were at level '0' - ie. we're at the rightmost pipe at level 0
+            if(i == 0 && currentPipe.thePipe[i] == null){currentPipe.thePipe[i] = pipeToAdd;} // 'add' the pipe here, by adding a reference ...
             // if the pointer at this level of currentPipe points to null, OR the pointer points to a pipe w. a HIGHER KEY.
             if (currentPipe.thePipe[i] == null || (pipeToAdd.str.compareTo(currentPipe.thePipe[i].str) < 0)){ //*****************
 
@@ -124,13 +126,11 @@ public class HashPipe {
         int height;
         Integer value;
         String str;
-        //Pipe rPointer; //the pointer at each level to the RIGHT
 
         Pipe(int height, String str, Integer value){
             this.height = height;
             this.str = str;
             this.value = value;
-
             thePipe = new Pipe[height];
         }
     }
